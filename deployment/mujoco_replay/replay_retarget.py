@@ -62,10 +62,10 @@ HAND_MOUNT_YAW_DEG = {"right": 135.0, "left": 45.0}
 # yaw/pitch/roll in the GUI.
 PRESET_FRONT_OF_ARM = {
     "right": {
-        "x": -0.29, "y": -0.16, "z": 0.89, "yaw": 90.0, "pitch": 0.0, "roll": 0.0,
+        "x": -0.025, "y": -0.16, "z": 0.875, "yaw": 90.0, "pitch": 0.0, "roll": 0.0,
     },
     "left": {
-        "x": -0.29, "y": 0.16, "z": 0.89, "yaw": -90.0, "pitch": 0.0, "roll": 0.0,
+        "x": -0.025, "y": 0.16, "z": 0.875, "yaw": -90.0, "pitch": 0.0, "roll": 0.0,
     },
 }
 DEFAULT_START_FRAME = 600
@@ -933,7 +933,7 @@ def main(args: argparse.Namespace) -> None:
 
     frame_idx = [0]
     playing = [True]
-    speed = [1.0]
+    speed = [float(args.speed)]
     looping = [True]
     accumulator = [0.0]
     needs_render = [True]
@@ -954,9 +954,14 @@ def main(args: argparse.Namespace) -> None:
                 viser.Icon.PLAYER_PAUSE if playing[0] else viser.Icon.PLAYER_PLAY
             )
 
-        speed_btns = server.gui.add_button_group(
-            "Speed", options=["0.25x", "0.5x", "1x", "2x", "4x"]
-        )
+        speed_opts = ["0.25x", "0.5x", "1x", "2x", "4x"]
+        speed_btns = server.gui.add_button_group("Speed", options=speed_opts)
+        # Highlight the button matching --speed (e.g. 0.25 -> "0.25x"). Any
+        # value outside the presets still plays at speed[0]; the buttons just
+        # won't reflect it.
+        _speed_label = f"{speed[0]:g}x"
+        if _speed_label in speed_opts:
+            speed_btns.value = _speed_label
 
         @speed_btns.on_click
         def _(event) -> None:
@@ -1219,6 +1224,14 @@ def _parse_args() -> argparse.Namespace:
     p.add_argument(
         "--side", choices=("right", "left"), default="right",
         help="Which arm + Sharpa hand to retarget onto (default: right).",
+    )
+    p.add_argument(
+        "--speed", type=float, default=1.0,
+        help=(
+            "Initial viser playback speed (default 1.0). Highlights the GUI "
+            "Speed button when set to 0.25/0.5/1/2/4; other values still play. "
+            "Ignored with --solve-only."
+        ),
     )
     p.add_argument(
         "--reference", type=Path, default=None,
