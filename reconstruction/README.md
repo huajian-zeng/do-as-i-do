@@ -83,6 +83,38 @@ with `layout.json → layout_camera_frame.json → layout_camera_frame_optimized
 frames. This directory is the input to the [`retargeting/`](../retargeting/README.md) pipeline.
 
 
+### Visualize the processed output yourself
+
+To explore the processed `whisk` demo (`whisking/`) in an interactive 3D (viser) viewer
+without re-running the pipeline, first extract the video frames. Use the **same** ffmpeg
+invocation as the pipeline's Step 0 so the frame numbering matches the tracking output:
+
+```bash
+# from the reconstruction/ directory — same flags as run_pipeline.sh Step 0
+VIDEO_DIR=whisking
+mkdir -p "$VIDEO_DIR/all_frames"
+ffmpeg -i "$VIDEO_DIR/whisking.mp4" -vsync 0 -start_number 0 "$VIDEO_DIR/all_frames/%06d.png"
+```
+
+Then launch the viewer:
+
+```bash
+conda activate sam3d
+VIDEO_DIR=whisking
+OBJECT_ID=whisk
+LAYOUT_JSON_OPT="$VIDEO_DIR/obj_tracking_out/$OBJECT_ID/combined_visualization/layout_camera_frame_optimized.json"
+python scripts/visualize_3d.py \
+    --frames-dir "$VIDEO_DIR/all_frames" \
+    --layout-json "$LAYOUT_JSON_OPT" \
+    --mesh "$VIDEO_DIR/video_segmentation/masks/frame_000125_masks/$OBJECT_ID/$OBJECT_ID.obj" \
+    --hand-meshes "$VIDEO_DIR/whisking/all_hand_meshes.npz" \
+    --scale 0.1808 \
+    --translation-scale 1.0 \
+    --hands both \
+    --port 8080
+```
+
+
 ## Credits & licenses
 The `modules/` contain external references with our changes to the sources, and each of them retain their upstream `LICENSE`. We gratefully
 acknowledge the original authors.
