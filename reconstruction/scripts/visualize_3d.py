@@ -271,6 +271,9 @@ def main():
         if pose.get("camera_frame"):
             # Already in camera frame — apply directly
             translation = np.array(pose["translation"])
+            tso = pose.get("translation_scale_optimized")
+            if tso is not None:
+                translation = translation * tso
             verts_cam = (mesh_verts * args.scale) @ rot_matrix.T + translation
         else:
             # Pose frame — reorder translation and convert
@@ -287,6 +290,9 @@ def main():
         # Compute object frame position and orientation in camera frame
         if pose.get("camera_frame"):
             obj_translation = np.array(pose["translation"])
+            tso = pose.get("translation_scale_optimized")
+            if tso is not None:
+                obj_translation = obj_translation * tso
             obj_rotation = rot_matrix
         else:
             tx, ty, tz = pose["translation"]
