@@ -297,16 +297,24 @@ def main(
     mj_data_rollout = mujoco.MjData(model)
     n_rollout_substeps = max(1, int(round(ref_dt / sim_dt)))
     model.opt.timestep = ref_dt / n_rollout_substeps
+    # Map each position actuator to the qpos slot of the joint it drives, so the
+    # ctrl target is read per-actuator. For a fully-actuated hand (e.g. sharpa)
+    # this is just qpos[: nq - nq_obj]; for an underactuated hand (e.g. inspire,
+    # whose coupled joints have no actuator) nu < nq_hand, so the slice would
+    # mismatch — this indexing handles both.
+    act_qadr = np.array(
+        [model.jnt_qposadr[model.actuator_trnid[i, 0]] for i in range(model.nu)]
+    )
     mj_data_rollout.qpos[:] = qpos_list[0]
     mj_data_rollout.qvel[:] = qvel_list[0]
-    mj_data_rollout.ctrl[:] = qpos_list[0][: model.nq - nq_obj]
+    mj_data_rollout.ctrl[:] = qpos_list[0][act_qadr]
     for _ in range(n_rollout_substeps):
         mujoco.mj_step(model, mj_data_rollout)
     n_final = qpos_list.shape[0]
     qpos_rollout = np.zeros((n_final, model.nq))
     qpos_rollout[0] = qpos_list[0]
     for i in range(1, n_final):
-        mj_data_rollout.ctrl[:] = qpos_list[i][: model.nq - nq_obj]
+        mj_data_rollout.ctrl[:] = qpos_list[i][act_qadr]
         for _ in range(n_rollout_substeps):
             mujoco.mj_step(model, mj_data_rollout)
         qpos_rollout[i] = mj_data_rollout.qpos.copy()
