@@ -1,0 +1,154 @@
+<mujoco model="inspire_right">
+  <compiler angle="radian" meshdir="meshes/" autolimits="true" />
+  <default>
+    <geom density="800" condim="1" contype="0" conaffinity="0" />
+    <position kp="300" dampratio="1.0" inheritrange="1" />
+    <joint damping="0.0" armature="1.0" frictionloss="0.0" />
+    <site size="0.005" type="sphere" rgba="1 0 0 1" group="3" />
+  </default>
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="1 1 1" rgb2="1 1 1" width="512" height="3072" />
+    <texture type="2d" name="right_groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8" width="300" height="300" />
+    <material name="right_groundplane" texture="right_groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2" />
+    <mesh name="right_index_intermediate" file="right_index_intermediate.obj" />
+    <mesh name="right_index_proximal" file="right_index_proximal.obj" />
+    <mesh name="right_middle_intermediate" file="right_middle_intermediate.obj" />
+    <mesh name="right_pinky_intermediate" file="right_pinky_intermediate.obj" />
+    <mesh name="right_thumb_distal" file="right_thumb_distal.obj" />
+    <mesh name="right_thumb_intermediate" file="right_thumb_intermediate.obj" />
+    <mesh name="right_thumb_proximal" file="right_thumb_proximal.obj" />
+    <mesh name="right_thumb_proximal_base" file="right_thumb_proximal_base.obj" />
+  </asset>
+  <worldbody>
+    <body name="right_base_tx">
+      <inertial pos="0 0 0" mass="0.1" diaginertia="0.01 0.01 0.01" />
+      <joint name="right_pos_x" pos="0 0 0" axis="1 0 0" type="slide" range="-5 5" />
+      <body name="right_base_ty">
+        <inertial pos="0 0 0" mass="0.1" diaginertia="0.01 0.01 0.01" />
+        <joint name="right_pos_y" pos="0 0 0" axis="0 1 0" type="slide" range="-5 5" />
+        <body name="right_base_tz">
+          <inertial pos="0 0 0" mass="0.1" diaginertia="0.01 0.01 0.01" />
+          <joint name="right_pos_z" pos="0 0 0" axis="0 0 1" type="slide" range="-5 5" />
+          <body name="right_base_roll">
+            <inertial pos="0 0 0" mass="0.1" diaginertia="0.01 0.01 0.01" />
+            <joint name="right_rot_x" pos="0 0 0" axis="1 0 0" type="hinge" range="-6.28 6.28" />
+            <body name="right_base_pitch">
+              <inertial pos="0 0 0" mass="0.1" diaginertia="0.01 0.01 0.01" />
+              <joint name="right_rot_y" pos="0 0 0" axis="0 1 0" type="hinge" range="-6.28 6.28" />
+              <body name="right_base_yaw">
+                <inertial pos="0 0 0" mass="0.1" diaginertia="0.01 0.01 0.01" />
+                <joint name="right_rot_z" pos="0 0 0" axis="0 0 1" type="hinge" range="-6.28 6.28" />
+                <body name="right_hand_base_link" pos="0 0 0" quat="9.38189e-07 -9.38183e-07 -0.707105 0.707109">
+                  <inertial pos="-0.0025264 -0.066047 0.0019598" mass="0.14143" diaginertia="0.00012281 8.3832e-05 7.6663e-05" />
+                  <site name="right_palm" pos="0 -0.08 0" />
+        <geom type="cylinder" size="0.028 0.0139" pos="0 -0.0136 0" euler="1.5708 0 0" name="collision_hand_right_palm_0" group="3" rgba="0.6 0.6 0.7 1" />
+        <geom type="box" size="0.01955 0.0101 0.0287" pos="-0.0032 -0.038 0" name="collision_hand_right_palm_1" group="3" rgba="0.6 0.6 0.7 1" />
+        <geom type="box" size="0.01955 0.02 0.0407" pos="-0.0032 -0.0682 0" name="collision_hand_right_palm_2" group="3" rgba="0.6 0.6 0.7 1" />
+        <body name="right_thumb_proximal_base" pos="-0.01696 -0.0691 -0.02045" quat="0.499998 0.5 -0.5 0.500002">
+          <inertial pos="-0.0048064 0.0009382 -0.00757" mass="0.0018869" diaginertia="5.816E-08 7.9161E-08 6.7433E-08" />
+          <joint name="right_thumb_proximal_yaw" pos="0 0 0" axis="0 0 -1" range="0.0 1.308" />
+          <geom type="mesh" mesh="right_thumb_proximal_base" name="collision_hand_right_thumb_proximal_base" group="3" rgba="0.75 0.78 0.92 1" />
+          <geom type="mesh" mesh="right_thumb_proximal_base" contype="0" conaffinity="0" group="1" density="0" rgba="0.75 0.78 0.92 1" />
+          <body name="right_thumb_proximal" pos="-0.0088099 0.010892 -0.00925" quat="0.0996843 0.0996847 0.700046 0.700044">
+            <inertial pos="0.021932 0.012785 -0.0080386" mass="0.0066075" diaginertia="1.5686E-06 1.7353E-06 2.786E-06" />
+            <joint name="right_thumb_proximal_pitch" pos="0 0 0" axis="0 0 1" range="0 0.6" />
+            <geom type="mesh" mesh="right_thumb_proximal" name="collision_hand_right_thumb_proximal" group="3" rgba="0.75 0.78 0.92 1" />
+            <geom type="mesh" mesh="right_thumb_proximal" contype="0" conaffinity="0" group="1" density="0" rgba="0.75 0.78 0.92 1" />
+            <body name="right_thumb_intermediate" pos="0.04407 0.034553 -0.0008" quat="1 0 0 0">
+              <inertial pos="0.0095544 -0.0016282 -0.0071997" mass="0.0037847" diaginertia="3.6981E-07 3.2394E-07 4.6531E-07" />
+              <joint name="right_thumb_intermediate" pos="0 0 0" axis="0 0 1" range="0 0.8" />
+              <geom type="mesh" mesh="right_thumb_intermediate" name="collision_hand_right_thumb_intermediate" group="3" rgba="0.75 0.78 0.92 1" />
+              <geom type="mesh" mesh="right_thumb_intermediate" contype="0" conaffinity="0" group="1" density="0" rgba="0.75 0.78 0.92 1" />
+              <body name="right_thumb_distal" pos="0.020248 0.010156 -0.0012" quat="1 0 0 0">
+                <inertial pos="0.0092888 0.0049529 -0.0060033" mass="0.0033441" diaginertia="1.3632E-07 1.4052E-07 2.0026E-07" />
+                <joint name="right_thumb_distal" pos="0 0 0" axis="0 0 1" range="0 0.4" />
+                <geom type="mesh" mesh="right_thumb_distal" name="collision_hand_right_thumb_distal" group="3" rgba="0.75 0.78 0.92 1" />
+                <geom type="mesh" mesh="right_thumb_distal" contype="0" conaffinity="0" group="1" density="0" rgba="0.75 0.78 0.92 1" />
+                <site name="right_thumb_tip" pos="0.0202 0.014 -0.006" />
+              </body>
+            </body>
+          </body>
+        </body>
+        <body name="right_index_proximal" pos="0.00028533 -0.13653 -0.032268" quat="0.0174454 -0.999848 0 0">
+          <inertial pos="0.0012259 0.011942 -0.0060001" mass="0.0042403" diaginertia="6.6232E-07 2.1146E-07 6.9398E-07" />
+          <joint name="right_index_proximal" pos="0 0 0" axis="0 0 1" range="0 1.47" />
+          <geom type="mesh" mesh="right_index_proximal" name="collision_hand_right_index_proximal" group="3" rgba="0.75 0.78 0.92 1" />
+          <geom type="mesh" mesh="right_index_proximal" contype="0" conaffinity="0" group="1" density="0" rgba="0.75 0.78 0.92 1" />
+          <body name="right_index_intermediate" pos="-0.0026138 0.032026 -0.001" quat="1 0 0 0">
+            <inertial pos="0.0019697 0.019589 -0.005" mass="0.0045683" diaginertia="7.6111E-07 9.6076E-08 7.8179E-07" />
+            <joint name="right_index_intermediate" pos="0 0 0" axis="0 0 1" range="-0.04545 1.56" />
+            <geom type="mesh" mesh="right_index_intermediate" name="collision_hand_right_index_intermediate" group="3" rgba="0.75 0.78 0.92 1" />
+            <geom type="mesh" mesh="right_index_intermediate" contype="0" conaffinity="0" group="1" density="0" rgba="0.75 0.78 0.92 1" />
+            <site name="right_index_tip" pos="-0.0008 0.045 -0.005" />
+          </body>
+        </body>
+        <body name="right_middle_proximal" pos="0.00028533 -0.1371 -0.01295" quat="-3.67321e-06 -1 0 0">
+          <inertial pos="0.001297 0.011934 -0.0060001" mass="0.0042403" diaginertia="6.6211E-07 2.1167E-07 6.9397E-07" />
+          <joint name="right_middle_proximal" pos="0 0 0" axis="0 0 1" range="0 1.47" />
+          <geom type="mesh" mesh="right_index_proximal" name="collision_hand_right_middle_proximal" group="3" rgba="0.75 0.78 0.92 1" />
+          <geom type="mesh" mesh="right_index_proximal" contype="0" conaffinity="0" group="1" density="0" rgba="0.75 0.78 0.92 1" />
+          <body name="right_middle_intermediate" pos="-0.0024229 0.032041 -0.001" quat="1 0 0 0">
+            <inertial pos="0.001921 0.020796 -0.005" mass="0.0050396" diaginertia="9.5822E-07 1.0646E-07 9.8384E-07" />
+            <joint name="right_middle_intermediate" pos="0 0 0" axis="0 0 1" range="-0.04545 1.56" />
+            <geom type="mesh" mesh="right_middle_intermediate" name="collision_hand_right_middle_intermediate" group="3" rgba="0.75 0.78 0.92 1" />
+            <geom type="mesh" mesh="right_middle_intermediate" contype="0" conaffinity="0" group="1" density="0" rgba="0.75 0.78 0.92 1" />
+            <site name="right_middle_tip" pos="-0.001 0.048 -0.005" />
+          </body>
+        </body>
+        <body name="right_ring_proximal" pos="0.00028533 -0.13691 0.0062872" quat="0.0261933 0.999657 0 0">
+          <inertial pos="0.001297 0.011934 -0.0060002" mass="0.0042403" diaginertia="6.6211E-07 2.1167E-07 6.9397E-07" />
+          <joint name="right_ring_proximal" pos="0 0 0" axis="0 0 1" range="0 1.47" />
+          <geom type="mesh" mesh="right_index_proximal" name="collision_hand_right_ring_proximal" group="3" rgba="0.75 0.78 0.92 1" />
+          <geom type="mesh" mesh="right_index_proximal" contype="0" conaffinity="0" group="1" density="0" rgba="0.75 0.78 0.92 1" />
+          <body name="right_ring_intermediate" pos="-0.0024229 0.032041 -0.001" quat="1 0 0 0">
+            <inertial pos="0.0021753 0.019567 -0.005" mass="0.0045683" diaginertia="7.6286E-07 9.431E-08 7.8177E-07" />
+            <joint name="right_ring_intermediate" pos="0 0 0" axis="0 0 1" range="-0.04545 1.56" />
+            <geom type="mesh" mesh="right_index_intermediate" name="collision_hand_right_ring_intermediate" group="3" rgba="0.75 0.78 0.92 1" />
+            <geom type="mesh" mesh="right_index_intermediate" contype="0" conaffinity="0" group="1" density="0" rgba="0.75 0.78 0.92 1" />
+            <site name="right_ring_tip" pos="-0.0008 0.045 -0.005" />
+          </body>
+        </body>
+        <body name="right_pinky_proximal" pos="0.00028533 -0.13571 0.025488" quat="0.0523224 0.99863 0 0">
+          <inertial pos="0.001297 0.011934 -0.0060001" mass="0.0042403" diaginertia="6.6211E-07 2.1167E-07 6.9397E-07" />
+          <joint name="right_pinky_proximal" pos="0 0 0" axis="0 0 1" range="0 1.47" />
+          <geom type="mesh" mesh="right_index_proximal" name="collision_hand_right_pinky_proximal" group="3" rgba="0.75 0.78 0.92 1" />
+          <geom type="mesh" mesh="right_index_proximal" contype="0" conaffinity="0" group="1" density="0" rgba="0.75 0.78 0.92 1" />
+          <body name="right_pinky_intermediate" pos="-0.0024229 0.032041 -0.001" quat="1 0 0 0">
+            <inertial pos="0.0024748 0.016203 -0.0050031" mass="0.0035996" diaginertia="4.3913E-07 7.0247E-08 4.4867E-07" />
+            <joint name="right_pinky_intermediate" pos="0 0 0" axis="0 0 1" range="-0.04545 1.56" />
+            <geom type="mesh" mesh="right_pinky_intermediate" name="collision_hand_right_pinky_intermediate" group="3" rgba="0.75 0.78 0.92 1" />
+            <geom type="mesh" mesh="right_pinky_intermediate" contype="0" conaffinity="0" group="1" density="0" rgba="0.75 0.78 0.92 1" />
+            <site name="right_pinky_tip" pos="-0.0008 0.037 -0.005" />
+          </body>
+        </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <equality>
+    <joint joint1="right_thumb_intermediate" joint2="right_thumb_proximal_pitch" polycoef="0.0 1.334 0 0 0" />
+    <joint joint1="right_thumb_distal" joint2="right_thumb_proximal_pitch" polycoef="0.0 0.667 0 0 0" />
+    <joint joint1="right_index_intermediate" joint2="right_index_proximal" polycoef="-0.04545 1.06399 0 0 0" />
+    <joint joint1="right_middle_intermediate" joint2="right_middle_proximal" polycoef="-0.04545 1.06399 0 0 0" />
+    <joint joint1="right_ring_intermediate" joint2="right_ring_proximal" polycoef="-0.04545 1.06399 0 0 0" />
+    <joint joint1="right_pinky_intermediate" joint2="right_pinky_proximal" polycoef="-0.04545 1.06399 0 0 0" />
+  </equality>
+  <actuator>
+    <position name="right_pos_x_position" joint="right_pos_x" kp="1000" />
+    <position name="right_pos_y_position" joint="right_pos_y" kp="1000" />
+    <position name="right_pos_z_position" joint="right_pos_z" kp="1000" />
+    <position name="right_rot_x_position" joint="right_rot_x" kp="1000" />
+    <position name="right_rot_y_position" joint="right_rot_y" kp="1000" />
+    <position name="right_rot_z_position" joint="right_rot_z" kp="1000" />
+    <position name="right_thumb_proximal_yaw_position" joint="right_thumb_proximal_yaw" />
+    <position name="right_thumb_proximal_pitch_position" joint="right_thumb_proximal_pitch" />
+    <position name="right_index_proximal_position" joint="right_index_proximal" />
+    <position name="right_middle_proximal_position" joint="right_middle_proximal" />
+    <position name="right_ring_proximal_position" joint="right_ring_proximal" />
+    <position name="right_pinky_proximal_position" joint="right_pinky_proximal" />
+  </actuator>
+</mujoco>
